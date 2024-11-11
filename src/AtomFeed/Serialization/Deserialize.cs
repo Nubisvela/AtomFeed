@@ -62,28 +62,36 @@ public static partial class Serializer
         if (stream.Length == 0)
             return strict ? throw new ArgumentException("AtomFeed: xml stream can not be empty") : null;
 
-        // Load stream into XmlDocument.
+        // Create stream reader and XML reader.
+        using var streamReader = new StreamReader(stream);
+        streamReader.BaseStream.Position = 0;
+        using var xmlReader = XmlReader.Create(streamReader);
+
+        // Load XmlDocument.
         var document = new XmlDocument();
-        document.Load(stream);
+        document.Load(xmlReader);
 
         // Create namespace manager.
         var manager = new XmlNamespaceManager(document.NameTable);
-        manager.AddNamespace("", Constants.AtomNamespace);
+        manager.AddNamespace("feed", Constants.AtomNamespace);
+
+        if (document.DocumentElement == null && strict)
+            throw new ConstraintException("AtomFeed: root element can not be null");
 
         // Parse feed id.
-        var idNode = document.DocumentElement?.SelectSingleNode("id", manager);
+        var idNode = document.DocumentElement?.SelectSingleNode("feed:id", manager);
         if (idNode == null && strict)
             throw new ConstraintException("AtomFeed: feed id can not be null");
         var id = idNode?.InnerText ?? "";
 
         // Parse feed title.
-        var titleNode = document.DocumentElement?.SelectSingleNode("title", manager);
+        var titleNode = document.DocumentElement?.SelectSingleNode("feed:title", manager);
         if (titleNode == null && strict)
             throw new ConstraintException("AtomFeed: feed title can not be null");
         var title = titleNode == null ? "" : DeserializeText(titleNode, strict);
 
         // Parse feed updated.
-        var updatedNode = document.DocumentElement?.SelectSingleNode("updated", manager);
+        var updatedNode = document.DocumentElement?.SelectSingleNode("feed:updated", manager);
         if (updatedNode == null && strict)
             throw new ConstraintException("AtomFeed: feed updated can not be null");
         if (!DateTimeOffset.TryParse(updatedNode?.InnerText, out var updated) && strict)
@@ -91,7 +99,7 @@ public static partial class Serializer
 
         // Parse entries.
         var entries = new List<Entry>();
-        var entryNodes = document.DocumentElement?.SelectNodes("entry", manager);
+        var entryNodes = document.DocumentElement?.SelectNodes("feed:entry", manager);
         if (entryNodes != null)
         {
             for (var i = 0; i < entryNodes.Count; i++)
@@ -105,7 +113,7 @@ public static partial class Serializer
 
         // Parse authors.
         var authors = new List<Author>();
-        var authorNodes = document.DocumentElement?.SelectNodes("author", manager);
+        var authorNodes = document.DocumentElement?.SelectNodes("feed:author", manager);
         if (authorNodes != null)
         {
             for (var i = 0; i < authorNodes.Count; i++)
@@ -119,7 +127,7 @@ public static partial class Serializer
 
         // Parse links.
         var links = new List<Link>();
-        var linkNodes = document.DocumentElement?.SelectNodes("link", manager);
+        var linkNodes = document.DocumentElement?.SelectNodes("feed:link", manager);
         if (linkNodes != null)
         {
             for (var i = 0; i < linkNodes.Count; i++)
@@ -133,7 +141,7 @@ public static partial class Serializer
 
         // Parse categories.
         var categories = new List<Category>();
-        var categoryNodes = document.DocumentElement?.SelectNodes("category", manager);
+        var categoryNodes = document.DocumentElement?.SelectNodes("feed:category", manager);
         if (categoryNodes != null)
         {
             for (var i = 0; i < categoryNodes.Count; i++)
@@ -147,7 +155,7 @@ public static partial class Serializer
 
         // Parse contributors.
         var contributors = new List<Contributor>();
-        var contributorNodes = document.DocumentElement?.SelectNodes("contributor", manager);
+        var contributorNodes = document.DocumentElement?.SelectNodes("feed:contributor", manager);
         if (contributorNodes != null)
         {
             for (var i = 0; i < contributorNodes.Count; i++)
@@ -172,27 +180,27 @@ public static partial class Serializer
         };
 
         // Parse generator.
-        var generatorNode = document.DocumentElement?.SelectSingleNode("generator", manager);
+        var generatorNode = document.DocumentElement?.SelectSingleNode("feed:generator", manager);
         if (generatorNode != null)
-            feed.Generator = DeserializeGenerator(generatorNode, manager, strict);
+            feed.Generator = DeserializeGenerator(generatorNode, strict);
 
         // Parse icon.
-        var iconNode = document.DocumentElement?.SelectSingleNode("icon", manager);
+        var iconNode = document.DocumentElement?.SelectSingleNode("feed:icon", manager);
         if (iconNode != null)
             feed.Icon = iconNode.InnerText;
 
         // Parse logo.
-        var logoNode = document.DocumentElement?.SelectSingleNode("logo", manager);
+        var logoNode = document.DocumentElement?.SelectSingleNode("feed:logo", manager);
         if (logoNode != null)
             feed.Logo = logoNode.InnerText;
 
         // Parse rights.
-        var rightsNode = document.DocumentElement?.SelectSingleNode("rights", manager);
+        var rightsNode = document.DocumentElement?.SelectSingleNode("feed:rights", manager);
         if (rightsNode != null)
             feed.Rights = DeserializeText(rightsNode, strict);
 
         // Parse subtitle.
-        var subtitleNode = document.DocumentElement?.SelectSingleNode("subtitle", manager);
+        var subtitleNode = document.DocumentElement?.SelectSingleNode("feed:subtitle", manager);
         if (subtitleNode != null)
             feed.Subtitle = subtitleNode.InnerText;
 
@@ -496,18 +504,16 @@ public static partial class Serializer
     /// Deserialize generator node.
     /// </summary>
     /// <param name="node">XML node.</param>
-    /// <param name="manager">Namespace manager.</param>
     /// <param name="strict">Strict mode.</param>
     /// <returns>Generator object. If strict mode is disabled and the node is invalid,
     /// then <c>null</c> is returned.</returns>
     /// <exception cref="ConstraintException"></exception>
-    private static Generator? DeserializeGenerator(XmlNode node, XmlNamespaceManager manager, bool strict)
+    private static Generator? DeserializeGenerator(XmlNode node, bool strict)
     {
         // Get generator name.
-        var nameNode = node.SelectSingleNode("name", manager);
-        if (nameNode == null)
-            return strict ? throw new ConstraintException("AtomFeed: generator name can not be null") : null;
-        var name = nameNode.InnerText;
+        var name = node.InnerText;
+        if (string.IsNullOrEmpty(name))
+            return strict ? throw new ConstraintException("AtomFeed: generator name can not be empty") : null;
 
         var generator = new Generator
         {
