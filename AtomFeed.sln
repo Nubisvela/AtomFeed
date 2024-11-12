@@ -2,6 +2,8 @@
 Microsoft Visual Studio Solution File, Format Version 12.00
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AtomFeed", "src\AtomFeed\AtomFeed.csproj", "{69A43204-F627-45F7-B114-8A1B0C2F30F6}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AtomFeed.Tests", "tests\AtomFeed.Tests\AtomFeed.Tests.csproj", "{209C200B-481A-4216-9916-A2FD9B4F0ACE}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -12,5 +14,9 @@ Global
 		{69A43204-F627-45F7-B114-8A1B0C2F30F6}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{69A43204-F627-45F7-B114-8A1B0C2F30F6}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{69A43204-F627-45F7-B114-8A1B0C2F30F6}.Release|Any CPU.Build.0 = Release|Any CPU
+		{209C200B-481A-4216-9916-A2FD9B4F0ACE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{209C200B-481A-4216-9916-A2FD9B4F0ACE}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{209C200B-481A-4216-9916-A2FD9B4F0ACE}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{209C200B-481A-4216-9916-A2FD9B4F0ACE}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal
