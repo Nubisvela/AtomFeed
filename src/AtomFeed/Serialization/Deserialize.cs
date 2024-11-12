@@ -69,7 +69,15 @@ public static partial class Serializer
 
         // Load XmlDocument.
         var document = new XmlDocument();
-        document.Load(xmlReader);
+        try
+        {
+            document.Load(xmlReader);
+        }
+        catch
+        {
+            if (strict) throw;
+            return null;
+        }
 
         // Create namespace manager.
         var manager = new XmlNamespaceManager(document.NameTable);
