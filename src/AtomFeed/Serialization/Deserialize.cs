@@ -105,7 +105,7 @@ public static partial class Serializer
             for (var i = 0; i < entryNodes.Count; i++)
             {
                 var entryNode = entryNodes[i];
-                if (entryNode == null || entryNode.HasChildNodes) continue;
+                if (entryNode is not { HasChildNodes: true }) continue;
                 var entry = DeserializeEntry(entryNode, manager, strict);
                 if (entry != null) entries.Add(entry);
             }
@@ -119,7 +119,7 @@ public static partial class Serializer
             for (var i = 0; i < authorNodes.Count; i++)
             {
                 var authorNode = authorNodes[i];
-                if (authorNode == null || authorNode.HasChildNodes) continue;
+                if (authorNode is not { HasChildNodes: true }) continue;
                 var person = DeserializePerson(authorNode, manager, strict);
                 if (person != null) authors.Add(Author.FromPerson(person));
             }
@@ -133,7 +133,7 @@ public static partial class Serializer
             for (var i = 0; i < linkNodes.Count; i++)
             {
                 var linkNode = linkNodes[i];
-                if (linkNode == null || linkNode.HasChildNodes) continue;
+                if (linkNode is not { Attributes.Count: > 0 }) continue;
                 var link = DeserializeLink(linkNode, strict);
                 if (link != null) links.Add(link);
             }
@@ -147,7 +147,7 @@ public static partial class Serializer
             for (var i = 0; i < categoryNodes.Count; i++)
             {
                 var categoryNode = categoryNodes[i];
-                if (categoryNode == null || categoryNode.HasChildNodes) continue;
+                if (categoryNode is not { Attributes.Count: > 0 }) continue;
                 var category = DeserializeCategory(categoryNode, strict);
                 if (category != null) categories.Add(category);
             }
@@ -161,7 +161,7 @@ public static partial class Serializer
             for (var i = 0; i < contributorNodes.Count; i++)
             {
                 var contributorNode = contributorNodes[i];
-                if (contributorNode == null || contributorNode.HasChildNodes) continue;
+                if (contributorNode is not { HasChildNodes: true }) continue;
                 var person = DeserializePerson(contributorNode, manager, strict);
                 if (person != null) contributors.Add(Contributor.FromPerson(person));
             }
@@ -219,19 +219,19 @@ public static partial class Serializer
     private static Entry? DeserializeEntry(XmlNode node, XmlNamespaceManager manager, bool strict)
     {
         // Get entry id.
-        var idNode = node.SelectSingleNode("id", manager);
+        var idNode = node.SelectSingleNode(".//*[name()='id']", manager);
         if (idNode == null)
             return strict ? throw new ConstraintException("AtomFeed: entry id can not be null") : null;
         var id = idNode.InnerText;
 
         // Get entry title.
-        var titleNode = node.SelectSingleNode("title", manager);
+        var titleNode = node.SelectSingleNode(".//*[name()='title']", manager);
         if (titleNode == null)
             return strict ? throw new ConstraintException("AtomFeed: entry title can not be null") : null;
         var title = titleNode.InnerText;
 
         // Get entry updated.
-        var updatedNode = node.SelectSingleNode("updated", manager);
+        var updatedNode = node.SelectSingleNode(".//*[name()='updated']", manager);
         if (updatedNode == null)
             return strict ? throw new ConstraintException("AtomFeed: entry updated can not be null") : null;
         if (!DateTimeOffset.TryParse(updatedNode.InnerText, out var updated))
@@ -245,79 +245,79 @@ public static partial class Serializer
         };
 
         // Get entry authors.
-        var authorNodes = node.SelectNodes("author", manager);
+        var authorNodes = node.SelectNodes(".//*[name()='author']", manager);
         if (authorNodes != null)
         {
             for (var i = 0; i < authorNodes.Count; i++)
             {
                 var authorNode = authorNodes[i];
-                if (authorNode == null || authorNode.HasChildNodes) continue;
+                if (authorNode is not { HasChildNodes: true }) continue;
                 var person = DeserializePerson(authorNode, manager, strict);
                 if (person != null) entry.Authors.Add(Author.FromPerson(person));
             }
         }
 
         // Get entry content.
-        var contentNode = node.SelectSingleNode("content", manager);
+        var contentNode = node.SelectSingleNode(".//*[name()='content']", manager);
         if (contentNode != null)
             entry.Content = DeserializeContent(contentNode, strict);
 
         // Get entry links.
-        var linkNodes = node.SelectNodes("link", manager);
+        var linkNodes = node.SelectNodes(".//*[name()='link']", manager);
         if (linkNodes != null)
         {
             for (var i = 0; i < linkNodes.Count; i++)
             {
                 var linkNode = linkNodes[i];
-                if (linkNode == null || linkNode.HasChildNodes) continue;
+                if (linkNode is not { Attributes.Count: > 0 }) continue;
                 var link = DeserializeLink(linkNode, strict);
                 if (link != null) entry.Links.Add(link);
             }
         }
 
         // Get entry summary.
-        var summaryNode = node.SelectSingleNode("summary", manager);
+        var summaryNode = node.SelectSingleNode(".//*[name()='summary']", manager);
         if (summaryNode != null)
             entry.Summary = DeserializeText(summaryNode, strict);
 
         // Get entry categories.
-        var categoryNodes = node.SelectNodes("category", manager);
+        var categoryNodes = node.SelectNodes(".//*[name()='category']", manager);
         if (categoryNodes != null)
         {
             for (var i = 0; i < categoryNodes.Count; i++)
             {
                 var categoryNode = categoryNodes[i];
-                if (categoryNode == null || categoryNode.HasChildNodes) continue;
+                if (categoryNode is not { Attributes.Count: > 0 }) continue;
                 var category = DeserializeCategory(categoryNode, strict);
                 if (category != null) entry.Categories.Add(category);
             }
         }
 
         // Get entry contributors.
-        var contributorNodes = node.SelectNodes("contributor", manager);
+        var contributorNodes = node.SelectNodes(".//*[name()='contributor']", manager);
         if (contributorNodes != null)
         {
             for (var i = 0; i < contributorNodes.Count; i++)
             {
                 var contributorNode = contributorNodes[i];
-                if (contributorNode == null || contributorNode.HasChildNodes) continue;
+                if (contributorNode is not { HasChildNodes: true }) continue;
                 var person = DeserializePerson(contributorNode, manager, strict);
                 if (person != null) entry.Contributors.Add(Contributor.FromPerson(person));
             }
         }
 
         // Get entry published.
-        var publishedNode = node.SelectSingleNode("published", manager);
+        var publishedNode = node.SelectSingleNode(".//*[name()='published']", manager);
         if (publishedNode != null && DateTimeOffset.TryParse(publishedNode.InnerText, out var published))
             entry.Published = published;
 
         // Get entry rights.
-        var rightsNode = node.SelectSingleNode("rights", manager);
+        var rightsNode = node.SelectSingleNode(".//*[name()='rights']", manager);
         if (rightsNode != null)
             entry.Rights = DeserializeText(rightsNode, strict);
 
         // Get entry source.
-        var sourceNode = node.SelectSingleNode("source", manager);
+        var sourceNode = node.SelectSingleNode(".//*[name()='source']", manager);
         if (sourceNode != null)
             entry.Source = DeserializeSource(sourceNode, manager, strict);
 
@@ -394,7 +394,7 @@ public static partial class Serializer
     private static Person? DeserializePerson(XmlNode node, XmlNamespaceManager manager, bool strict)
     {
         // Get person name.
-        var nameNode = node.SelectSingleNode("name", manager);
+        var nameNode = node.SelectSingleNode(".//*[name()='name']", manager);
         if (nameNode == null)
             return strict ? throw new ConstraintException("AtomFeed: person name can not be null") : null;
         var name = nameNode.InnerText;
@@ -405,12 +405,12 @@ public static partial class Serializer
         };
 
         // Get person email.
-        var emailNode = node.SelectSingleNode("email", manager);
+        var emailNode = node.SelectSingleNode(".//*[name()='email']", manager);
         if (emailNode != null)
             person.Email = emailNode.InnerText;
 
         // Get person url.
-        var uriNode = node.SelectSingleNode("url", manager);
+        var uriNode = node.SelectSingleNode(".//*[name()='url']", manager);
         if (uriNode != null)
             person.Url = uriNode.InnerText;
 
@@ -545,19 +545,19 @@ public static partial class Serializer
     private static Source? DeserializeSource(XmlNode node, XmlNamespaceManager manager, bool strict)
     {
         // Get source id.
-        var idNode = node.SelectSingleNode("id", manager);
+        var idNode = node.SelectSingleNode(".//*[name()='id']", manager);
         if (idNode == null)
             return strict ? throw new ConstraintException("AtomFeed: source id can not be null") : null;
         var id = idNode.InnerText;
 
         // Get source title.
-        var titleNode = node.SelectSingleNode("title", manager);
+        var titleNode = node.SelectSingleNode(".//*[name()='title']", manager);
         if (titleNode == null)
             return strict ? throw new ConstraintException("AtomFeed: source title can not be null") : null;
         var title = DeserializeText(titleNode, strict);
 
         // Get source updated.
-        var updatedNode = node.SelectSingleNode("updated", manager);
+        var updatedNode = node.SelectSingleNode(".//*[name()='updated']", manager);
         if (updatedNode == null)
             return strict ? throw new ConstraintException("AtomFeed: source updated can not be null") : null;
         DateTimeOffset.TryParse(updatedNode.InnerText, out var updated);
