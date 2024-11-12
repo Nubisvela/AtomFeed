@@ -81,25 +81,25 @@ public static partial class Serializer
 
         // Create namespace manager.
         var manager = new XmlNamespaceManager(document.NameTable);
-        manager.AddNamespace("feed", Constants.AtomNamespace);
+        manager.AddNamespace("atom", Constants.AtomNamespace);
 
         if (document.DocumentElement == null && strict)
             throw new ConstraintException("AtomFeed: root element can not be null");
 
         // Parse feed id.
-        var idNode = document.DocumentElement?.SelectSingleNode("feed:id", manager);
+        var idNode = document.DocumentElement?.SelectSingleNode("atom:id", manager);
         if (idNode == null && strict)
             throw new ConstraintException("AtomFeed: feed id can not be null");
         var id = idNode?.InnerText ?? "";
 
         // Parse feed title.
-        var titleNode = document.DocumentElement?.SelectSingleNode("feed:title", manager);
+        var titleNode = document.DocumentElement?.SelectSingleNode("atom:title", manager);
         if (titleNode == null && strict)
             throw new ConstraintException("AtomFeed: feed title can not be null");
         var title = titleNode == null ? "" : DeserializeText(titleNode, strict);
 
         // Parse feed updated.
-        var updatedNode = document.DocumentElement?.SelectSingleNode("feed:updated", manager);
+        var updatedNode = document.DocumentElement?.SelectSingleNode("atom:updated", manager);
         if (updatedNode == null && strict)
             throw new ConstraintException("AtomFeed: feed updated can not be null");
         if (!DateTimeOffset.TryParse(updatedNode?.InnerText, out var updated) && strict)
@@ -107,7 +107,7 @@ public static partial class Serializer
 
         // Parse entries.
         var entries = new List<Entry>();
-        var entryNodes = document.DocumentElement?.SelectNodes("feed:entry", manager);
+        var entryNodes = document.DocumentElement?.SelectNodes("atom:entry", manager);
         if (entryNodes != null)
         {
             for (var i = 0; i < entryNodes.Count; i++)
@@ -121,7 +121,7 @@ public static partial class Serializer
 
         // Parse authors.
         var authors = new List<Author>();
-        var authorNodes = document.DocumentElement?.SelectNodes("feed:author", manager);
+        var authorNodes = document.DocumentElement?.SelectNodes("atom:author", manager);
         if (authorNodes != null)
         {
             for (var i = 0; i < authorNodes.Count; i++)
@@ -135,7 +135,7 @@ public static partial class Serializer
 
         // Parse links.
         var links = new List<Link>();
-        var linkNodes = document.DocumentElement?.SelectNodes("feed:link", manager);
+        var linkNodes = document.DocumentElement?.SelectNodes("atom:link", manager);
         if (linkNodes != null)
         {
             for (var i = 0; i < linkNodes.Count; i++)
@@ -149,7 +149,7 @@ public static partial class Serializer
 
         // Parse categories.
         var categories = new List<Category>();
-        var categoryNodes = document.DocumentElement?.SelectNodes("feed:category", manager);
+        var categoryNodes = document.DocumentElement?.SelectNodes("atom:category", manager);
         if (categoryNodes != null)
         {
             for (var i = 0; i < categoryNodes.Count; i++)
@@ -163,7 +163,7 @@ public static partial class Serializer
 
         // Parse contributors.
         var contributors = new List<Contributor>();
-        var contributorNodes = document.DocumentElement?.SelectNodes("feed:contributor", manager);
+        var contributorNodes = document.DocumentElement?.SelectNodes("atom:contributor", manager);
         if (contributorNodes != null)
         {
             for (var i = 0; i < contributorNodes.Count; i++)
@@ -188,27 +188,27 @@ public static partial class Serializer
         };
 
         // Parse generator.
-        var generatorNode = document.DocumentElement?.SelectSingleNode("feed:generator", manager);
+        var generatorNode = document.DocumentElement?.SelectSingleNode("atom:generator", manager);
         if (generatorNode != null)
             feed.Generator = DeserializeGenerator(generatorNode, strict);
 
         // Parse icon.
-        var iconNode = document.DocumentElement?.SelectSingleNode("feed:icon", manager);
+        var iconNode = document.DocumentElement?.SelectSingleNode("atom:icon", manager);
         if (iconNode != null)
             feed.Icon = iconNode.InnerText;
 
         // Parse logo.
-        var logoNode = document.DocumentElement?.SelectSingleNode("feed:logo", manager);
+        var logoNode = document.DocumentElement?.SelectSingleNode("atom:logo", manager);
         if (logoNode != null)
             feed.Logo = logoNode.InnerText;
 
         // Parse rights.
-        var rightsNode = document.DocumentElement?.SelectSingleNode("feed:rights", manager);
+        var rightsNode = document.DocumentElement?.SelectSingleNode("atom:rights", manager);
         if (rightsNode != null)
             feed.Rights = DeserializeText(rightsNode, strict);
 
         // Parse subtitle.
-        var subtitleNode = document.DocumentElement?.SelectSingleNode("feed:subtitle", manager);
+        var subtitleNode = document.DocumentElement?.SelectSingleNode("atom:subtitle", manager);
         if (subtitleNode != null)
             feed.Subtitle = subtitleNode.InnerText;
 

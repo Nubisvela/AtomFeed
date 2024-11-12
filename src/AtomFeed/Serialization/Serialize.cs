@@ -34,7 +34,7 @@ public static partial class Serializer
         document.CreateXmlDeclaration("1.0", encoding?.BodyName, null);
 
         var manager = new XmlNamespaceManager(document.NameTable);
-        manager.AddNamespace("", Constants.AtomNamespace);
+        manager.AddNamespace("atom", Constants.AtomNamespace);
 
         var feedElement = document.CreateElement("feed");
         feedElement.SetAttribute("xmlns", Constants.AtomNamespace);
