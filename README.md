@@ -6,13 +6,24 @@
 
 The Atom Syndication Format is an XML language used for web feeds.
 
-This project is a .NET implement of [The Atom Syndication Format (RFC 4287)](https://datatracker.ietf.org/doc/html/rfc4287). 
+This project is a .NET implement of Atom 1.0. 
 
 ## Features
 
 - Serialize atom feed into XML document
 - Deserialize atom feed from XML
 - Follows and conforms to [W3C Atom feed validation](https://validator.w3.org/feed/docs/atom.html).
+
+## Get Started
+
+You may want to learn about the Atom from the links below:
+
+- [Atom (web standard) - Wikipedia](https://en.wikipedia.org/wiki/Atom_(web_standard)) (Include a comparison to the RSS 2.0) 
+- [The Atom Syndication Format (RFC 4287) - IETF](https://datatracker.ietf.org/doc/html/rfc4287)
+
+Most of the modern feed readers support Atom.
+
+You can use this library to build a feed server, or build an app to handle Atom feeds.
 
 ## Installation
 
@@ -21,6 +32,8 @@ dotnet add package AtomFeed
 ```
 
 ## Usage
+
+### Basic usage
 
 Serialize:
 
@@ -52,8 +65,49 @@ Deserialize:
 ```csharp
 using AtomFeed;
 
+const string xml =
+    """
+    <?xml version="1.0" encoding="utf-8"?>
+    <feed xmlns="http://www.w3.org/2005/Atom">
+        <id>urn:uuid:01931011-954d-71ee-ade5-0146811ae69f</id>
+        <title>Sample Feed</title>
+        <updated>2024-11-09T08:36:48Z</updated>
+    </feed>
+    """;
+
 var feed = Atom.Deserialize(xml);
 ```
+
+### Strict mode in deserialization
+
+Normally, the strict mode is disabled, when the giving feed is invalid, the parser will return `null`.
+
+If the strict mode is enabled, the parser will throw an exception.
+
+The strict mode can be used to validate the feed, it follows the [W3C Atom feed validation](https://validator.w3.org/feed/docs/atom.html).
+
+```csharp
+var xml = string.Empty;
+
+// An System.Data.ArgumentException will be thrown,
+// because the feed is empty.
+var feed = Atom.Deserialize(xml, true);
+```
+
+```csharp
+const string xml =
+    """
+    <?xml version="1.0" encoding="utf-8"?>
+    <feed xmlns="http://www.w3.org/2005/Atom">
+    </feed>
+    """;
+
+// An System.Data.ConstraintException will be thrown,
+// because the feed <id> tag is missing.
+var feed = Atom.Deserialize(xml, true);
+```
+
+See more in the [DeserializeStrictModeTests.cs](https://github.com/chrishyze/AtomFeed/blob/main/tests/AtomFeed.Tests/DeserializeStrictModeTests.cs)
 
 ## License
 
