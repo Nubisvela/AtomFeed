@@ -1,0 +1,39 @@
+name: Publish
+
+on:
+  push:
+    tags: [ "v*" ]
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Get package version from project file
+        id: get-version
+        uses: KinsonDigital/VersionMiner@v1.0.0
+        with:
+          repo-owner: chrishyze
+          repo-name: AtomFeed
+          repo-token: ${{ secrets.GITHUB_TOKEN }}
+          branch-name: main
+          file-format: xml
+          file-path: "${{ github.workspace }}/src/AtomFeed/AtomFeed.csproj"
+          version-keys: Version
+      - name: Check version validity
+        run: |
+          tag_version=$(echo "$GITHUB_REF_NAME" | cut -b2-);
+          if [ "$tag_version" = "${{ steps.get-version.outputs.version }}" ]; then
+            exit 0;
+          else
+            echo "Error: tagged version '${tag_version}' does not match the version '${{ steps.get-version.outputs.version }}' in project file.";
+            exit 1;
+          fi
+      - name: Setup .NET
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: 8.0.x
+      - name: Pack
+        run: dotnet pack src/AtomFeed/AtomFeed.csproj -c Release -o src/AtomFeed/bin/Release
+      - name: Publish
+        run: dotnet nuget push src/AtomFeed/bin/Release/*.nupkg -k ${{secrets.NUGET_API_KEY}} -s https://api.nuget.org/v3/index.json
