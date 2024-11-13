@@ -5,7 +5,7 @@ using AtomFeed.Serialization;
 
 namespace AtomFeed;
 
-public static class AtomFeed
+public static class Atom
 {
     /// <summary>
     /// Serialize a feed to an XML document.

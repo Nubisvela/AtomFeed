@@ -44,7 +44,7 @@ var feed = new Feed
     ]
 };
 
-var xmlDocument = AtomFeed.Serialize(feed);
+var xmlDocument = Atom.Serialize(feed);
 ```
 
 Deserialize:
@@ -52,7 +52,7 @@ Deserialize:
 ```csharp
 using AtomFeed;
 
-var feed = AtomFeed.Deserialize(xml);
+var feed = Atom.Deserialize(xml);
 ```
 
 ## License

@@ -4,7 +4,7 @@ using AtomFeed.Element;
 
 namespace AtomFeed.Tests;
 
-public class AtomFeedTests
+public class AtomTests
 {
     private readonly string _feedXml =
         """
@@ -169,7 +169,7 @@ public class AtomFeedTests
         };
 
         // Act
-        var xmlDoc = AtomFeed.Serialize(feed);
+        var xmlDoc = Atom.Serialize(feed);
 
         // Assert
         Assert.Equal(_feedId, xmlDoc.GetElementsByTagName("id")[0]?.InnerText);
@@ -275,9 +275,9 @@ public class AtomFeedTests
         var feedStream = new MemoryStream(feedBytes);
 
         // Act
-        var feedFromXml = AtomFeed.Deserialize(_feedXml, true);
-        var feedFromBytes = AtomFeed.Deserialize(feedBytes, true);
-        var feedFromStream = AtomFeed.Deserialize(feedStream, true);
+        var feedFromXml = Atom.Deserialize(_feedXml, true);
+        var feedFromBytes = Atom.Deserialize(feedBytes, true);
+        var feedFromStream = Atom.Deserialize(feedStream, true);
 
         // Assert
         AssertDeserialized(feedFromXml);
