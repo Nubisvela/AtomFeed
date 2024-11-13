@@ -24,11 +24,11 @@ public static partial class Serializer
     {
         // Feed id is required.
         if (string.IsNullOrEmpty(feed.Id))
-            throw new ConstraintException("AtomFeed: feed id can not be null or empty");
+            throw new ConstraintException("AtomFeed: feed id can not be empty");
 
         // Feed title is required.
         if (string.IsNullOrEmpty(feed.Title.Value))
-            throw new ConstraintException("AtomFeed: feed title can not be null or empty");
+            throw new ConstraintException("AtomFeed: feed title can not be empty");
 
         var document = new XmlDocument();
         document.CreateXmlDeclaration("1.0", encoding?.BodyName, null);
@@ -123,11 +123,11 @@ public static partial class Serializer
     {
         // Entry id is required.
         if (string.IsNullOrEmpty(entry.Id))
-            throw new ConstraintException("AtomFeed: entry id can not be null or empty");
+            throw new ConstraintException("AtomFeed: entry id can not be empty");
 
         // Entry title is required.
         if (string.IsNullOrEmpty(entry.Title.Value))
-            throw new ConstraintException("AtomFeed: entry title can not be null or empty");
+            throw new ConstraintException("AtomFeed: entry title can not be empty");
 
         var entryElement = document.CreateElement("entry");
 
@@ -204,7 +204,7 @@ public static partial class Serializer
         {
             // Author name is required.
             if (string.IsNullOrEmpty(author.Name))
-                throw new ConstraintException("AtomFeed: author name can not be null or empty");
+                throw new ConstraintException("AtomFeed: author name can not be empty");
 
             var authorElement = document.CreateElement("author");
 
@@ -438,7 +438,7 @@ public static partial class Serializer
     private static XmlElement SerializeText(Text text, string name, XmlDocument document)
     {
         if (!TextElementNames.Contains(name))
-            throw new NotSupportedException($"Unsupported element name '{name}'.");
+            throw new NotSupportedException($"AtomFeed: Unsupported text element name '{name}'.");
 
         var textElement = document.CreateElement(name);
         textElement.InnerText = text.Value;
@@ -452,7 +452,7 @@ public static partial class Serializer
             TextType.Text => "text",
             TextType.Html => "html",
             TextType.Xhtml => "xhtml",
-            _ => throw new NotSupportedException($"Unsupported text type '{text.Type}'.")
+            _ => throw new NotSupportedException($"AtomFeed: Unsupported text type '{text.Type}'.")
         };
         textElement.Attributes.Append(typeAttribute);
 

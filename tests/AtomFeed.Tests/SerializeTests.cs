@@ -20,7 +20,7 @@ public class SerializeTests
         var caughtException = Assert.Throws<ConstraintException>(() => Atom.Serialize(feed));
 
         // Assert
-        Assert.Equal("AtomFeed: feed id can not be null or empty", caughtException.Message);
+        Assert.Equal("AtomFeed: feed id can not be empty", caughtException.Message);
     }
 
     [Fact]
@@ -38,7 +38,7 @@ public class SerializeTests
         var caughtException = Assert.Throws<ConstraintException>(() => Atom.Serialize(feed));
 
         // Assert
-        Assert.Equal("AtomFeed: feed title can not be null or empty", caughtException.Message);
+        Assert.Equal("AtomFeed: feed title can not be empty", caughtException.Message);
     }
 
     [Fact]
@@ -65,7 +65,7 @@ public class SerializeTests
         var caughtException = Assert.Throws<ConstraintException>(() => Atom.Serialize(feed));
 
         // Assert
-        Assert.Equal("AtomFeed: entry id can not be null or empty", caughtException.Message);
+        Assert.Equal("AtomFeed: entry id can not be empty", caughtException.Message);
     }
 
     [Fact]
@@ -92,6 +92,6 @@ public class SerializeTests
         var caughtException = Assert.Throws<ConstraintException>(() => Atom.Serialize(feed));
 
         // Assert
-        Assert.Equal("AtomFeed: entry title can not be null or empty", caughtException.Message);
+        Assert.Equal("AtomFeed: entry title can not be empty", caughtException.Message);
     }
 }

@@ -84,24 +84,24 @@ public static partial class Serializer
         manager.AddNamespace("atom", Constants.AtomNamespace);
 
         if (document.DocumentElement == null && strict)
-            throw new ConstraintException("AtomFeed: root element can not be null");
+            throw new ConstraintException("AtomFeed: root element not found");
 
         // Parse feed id.
         var idNode = document.DocumentElement?.SelectSingleNode("atom:id", manager);
         if (idNode == null && strict)
-            throw new ConstraintException("AtomFeed: feed id can not be null");
+            throw new ConstraintException("AtomFeed: feed id is missing");
         var id = idNode?.InnerText ?? "";
 
         // Parse feed title.
         var titleNode = document.DocumentElement?.SelectSingleNode("atom:title", manager);
         if (titleNode == null && strict)
-            throw new ConstraintException("AtomFeed: feed title can not be null");
+            throw new ConstraintException("AtomFeed: feed title is missing");
         var title = titleNode == null ? "" : DeserializeText(titleNode, strict);
 
         // Parse feed updated.
         var updatedNode = document.DocumentElement?.SelectSingleNode("atom:updated", manager);
         if (updatedNode == null && strict)
-            throw new ConstraintException("AtomFeed: feed updated can not be null");
+            throw new ConstraintException("AtomFeed: feed updated is missing");
         if (!DateTimeOffset.TryParse(updatedNode?.InnerText, out var updated) && strict)
             throw new ConstraintException("AtomFeed: invalid feed updated format");
 
@@ -229,19 +229,19 @@ public static partial class Serializer
         // Get entry id.
         var idNode = node.SelectSingleNode(".//*[name()='id']", manager);
         if (idNode == null)
-            return strict ? throw new ConstraintException("AtomFeed: entry id can not be null") : null;
+            return strict ? throw new ConstraintException("AtomFeed: entry id is missing") : null;
         var id = idNode.InnerText;
 
         // Get entry title.
         var titleNode = node.SelectSingleNode(".//*[name()='title']", manager);
         if (titleNode == null)
-            return strict ? throw new ConstraintException("AtomFeed: entry title can not be null") : null;
+            return strict ? throw new ConstraintException("AtomFeed: entry title is missing") : null;
         var title = titleNode.InnerText;
 
         // Get entry updated.
         var updatedNode = node.SelectSingleNode(".//*[name()='updated']", manager);
         if (updatedNode == null)
-            return strict ? throw new ConstraintException("AtomFeed: entry updated can not be null") : null;
+            return strict ? throw new ConstraintException("AtomFeed: entry updated is missing") : null;
         if (!DateTimeOffset.TryParse(updatedNode.InnerText, out var updated))
             return strict ? throw new ConstraintException("AtomFeed: invalid entry updated format") : null;
 
@@ -268,7 +268,7 @@ public static partial class Serializer
         // Get entry content.
         var contentNode = node.SelectSingleNode(".//*[name()='content']", manager);
         if (contentNode != null)
-            entry.Content = DeserializeContent(contentNode, strict);
+            entry.Content = DeserializeContent(contentNode);
 
         // Get entry links.
         var linkNodes = node.SelectNodes(".//*[name()='link']", manager);
@@ -356,7 +356,9 @@ public static partial class Serializer
             {
                 "html" => TextType.Html,
                 "xhtml" => TextType.Xhtml,
-                _ => strict ? throw new ConstraintException("AtomFeed: invalid text type") : TextType.Text
+                _ => strict
+                    ? throw new ConstraintException($"AtomFeed: invalid text type of {node.Name}")
+                    : TextType.Text
             };
 
         return text;
@@ -366,9 +368,8 @@ public static partial class Serializer
     /// Deserialize content node in <c>entry</c> element.
     /// </summary>
     /// <param name="node">XML node.</param>
-    /// <param name="strict">Strict mode.</param>
     /// <returns>Content object.</returns>
-    private static Content DeserializeContent(XmlNode node, bool strict)
+    private static Content DeserializeContent(XmlNode node)
     {
         var content = new Content();
 
@@ -404,7 +405,7 @@ public static partial class Serializer
         // Get person name.
         var nameNode = node.SelectSingleNode(".//*[name()='name']", manager);
         if (nameNode == null)
-            return strict ? throw new ConstraintException("AtomFeed: person name can not be null") : null;
+            return strict ? throw new ConstraintException($"AtomFeed: {node.Name} name is missing") : null;
         var name = nameNode.InnerText;
 
         var person = new Person
@@ -438,7 +439,7 @@ public static partial class Serializer
         // Get link href.
         var hrefAttribute = node.Attributes?["href"];
         if (hrefAttribute == null)
-            return strict ? throw new ConstraintException("AtomFeed: link href can not be null") : null;
+            return strict ? throw new ConstraintException("AtomFeed: link href attribute is missing") : null;
         var href = hrefAttribute.Value;
 
         var link = new Link
@@ -487,7 +488,7 @@ public static partial class Serializer
         // Get category term.
         var termAttribute = node.Attributes?["term"];
         if (termAttribute == null)
-            return strict ? throw new ConstraintException("AtomFeed: category term can not be null") : null;
+            return strict ? throw new ConstraintException("AtomFeed: category term attribute is missing") : null;
         var term = termAttribute.Value;
 
         var category = new Category
@@ -555,19 +556,19 @@ public static partial class Serializer
         // Get source id.
         var idNode = node.SelectSingleNode(".//*[name()='id']", manager);
         if (idNode == null)
-            return strict ? throw new ConstraintException("AtomFeed: source id can not be null") : null;
+            return strict ? throw new ConstraintException("AtomFeed: source id is missing") : null;
         var id = idNode.InnerText;
 
         // Get source title.
         var titleNode = node.SelectSingleNode(".//*[name()='title']", manager);
         if (titleNode == null)
-            return strict ? throw new ConstraintException("AtomFeed: source title can not be null") : null;
+            return strict ? throw new ConstraintException("AtomFeed: source title is missing") : null;
         var title = DeserializeText(titleNode, strict);
 
         // Get source updated.
         var updatedNode = node.SelectSingleNode(".//*[name()='updated']", manager);
         if (updatedNode == null)
-            return strict ? throw new ConstraintException("AtomFeed: source updated can not be null") : null;
+            return strict ? throw new ConstraintException("AtomFeed: source updated is missing") : null;
         DateTimeOffset.TryParse(updatedNode.InnerText, out var updated);
 
         return new Source
