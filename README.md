@@ -1,9 +1,19 @@
 # AtomFeed
 
+[![](https://img.shields.io/nuget/v/AtomFeed.svg)](https://www.nuget.org/packages/AtomFeed)
+[![](https://github.com/chrishyze/AtomFeed/workflows/Tests/badge.svg?branch=main)](https://github.com/chrishyze/AtomFeed/workflows/Tests)
+[![](https://img.shields.io/badge/license-MIT-informational)](https://www.nuget.org/packages/AtomFeed)
+
 The Atom Syndication Format is an XML language used for web feeds.
 
 This project is a .NET implement of [The Atom Syndication Format (RFC 4287)](https://datatracker.ietf.org/doc/html/rfc4287). 
 Follows and conforms to [W3C Atom feed validation](https://validator.w3.org/feed/docs/atom.html).
+
+## Installation
+
+```shell
+dotnet add package AtomFeed
+```
 
 ## Usage
 

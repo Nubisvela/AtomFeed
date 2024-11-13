@@ -18,7 +18,7 @@ jobs:
           repo-token: ${{ secrets.GITHUB_TOKEN }}
           branch-name: main
           file-format: xml
-          file-path: "${{ github.workspace }}/src/AtomFeed/AtomFeed.csproj"
+          file-path: src/AtomFeed/AtomFeed.csproj
           version-keys: Version
       - name: Check version validity
         run: |
@@ -36,4 +36,4 @@ jobs:
       - name: Pack
         run: dotnet pack src/AtomFeed/AtomFeed.csproj -c Release -o src/AtomFeed/bin/Release
       - name: Publish
-        run: dotnet nuget push src/AtomFeed/bin/Release/*.nupkg -k ${{secrets.NUGET_API_KEY}} -s https://api.nuget.org/v3/index.json
+        run: dotnet nuget push src/AtomFeed/bin/Release/*.nupkg -k ${{ secrets.NUGET_API_KEY }} -s https://api.nuget.org/v3/index.json
