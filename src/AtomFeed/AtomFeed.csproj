@@ -8,7 +8,7 @@
         <GenerateDocumentationFile>True</GenerateDocumentationFile>
 
         <PackageId>AtomFeed</PackageId>
-        <Version>1.2.0</Version>
+        <Version>1.3.0</Version>
         <Authors>chrishyze</Authors>
         <RepositoryUrl>https://github.com/chrishyze/AtomFeed</RepositoryUrl>
         <PackageProjectUrl>https://github.com/chrishyze/AtomFeed</PackageProjectUrl>
