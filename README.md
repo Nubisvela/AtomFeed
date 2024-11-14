@@ -46,14 +46,14 @@ using AtomFeed.Element;
 
 var feed = new Feed
 {
-    Id = "urn:uuid:" + Guid.NewGuid().ToString(),
+    Id = "urn:uuid:" + Guid.NewGuid(),
     Title = "My Blog Feed",
     Updated = DateTimeOffset.UtcNow,
     Entries =
     [
         new Entry
         {
-            Id = "urn:uuid:" + Guid.NewGuid().ToString(),
+            Id = "urn:uuid:" + Guid.NewGuid(),
             Title = "My First Article",
             Updated = DateTimeOffset.UtcNow
         }
@@ -111,6 +111,13 @@ var feed = Atom.Deserialize(xml, true);
 ```
 
 See more in the [DeserializeStrictModeTests.cs](https://github.com/chrishyze/AtomFeed/blob/main/tests/AtomFeed.Tests/DeserializeStrictModeTests.cs)
+
+## Examples
+
+- [Feed Server Example](https://github.com/chrishyze/AtomFeed/tree/main/examples/FeedServer)
+  This example demonstrates a feed server using the AtomFeed library.
+- [Feed Reader Example](https://github.com/chrishyze/AtomFeed/tree/main/examples/FeedReader)
+  This example demonstrates how to use the AtomFeed library to parse feed in a Console app.
 
 ## License
 
