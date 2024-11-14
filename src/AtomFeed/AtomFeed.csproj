@@ -5,6 +5,7 @@
         <LangVersion>12</LangVersion>
         <ImplicitUsings>enable</ImplicitUsings>
         <Nullable>enable</Nullable>
+        <GenerateDocumentationFile>True</GenerateDocumentationFile>
 
         <PackageId>AtomFeed</PackageId>
         <Version>1.2.0</Version>
