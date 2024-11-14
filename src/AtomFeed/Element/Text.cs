@@ -1,9 +1,9 @@
 namespace AtomFeed.Element;
 
 /// <summary>
-/// <c>title</c>, <c>summary</c>, <c>content</c>, and <c>rights</c> contain human-readable text,
-/// usually in small quantities. The type attribute determines how this
-/// information is encoded (default="text").
+/// <c>title</c>, <c>subtitle</c>, <c>summary</c>, <c>content</c>, and
+/// <c>rights</c> contain human-readable text, usually in small quantities.
+/// The type attribute determines how this information is encoded (default="text").
 /// </summary>
 public class Text
 {

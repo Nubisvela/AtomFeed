@@ -88,5 +88,5 @@ public class Feed
     /// <c>Optional</c>
     /// Contains a human-readable description or subtitle for the feed.
     /// </summary>
-    public string? Subtitle { get; set; }
+    public Text? Subtitle { get; set; }
 }

@@ -299,7 +299,7 @@ public class AtomTests
         Assert.Equal(0, string.Compare(_icon, feed.Icon, StringComparison.Ordinal));
         Assert.Equal(0, string.Compare(_logo, feed.Logo, StringComparison.Ordinal));
         Assert.Equal(0, string.Compare(_feedRights, feed.Rights?.Value, StringComparison.Ordinal));
-        Assert.Equal(0, string.Compare(_subtitle, feed.Subtitle, StringComparison.Ordinal));
+        Assert.Equal(0, string.Compare(_subtitle, feed.Subtitle?.Value, StringComparison.Ordinal));
 
         Assert.Single(feed.Authors);
         Assert.Equal(0, string.Compare(_authorName, feed.Authors[0].Name, StringComparison.Ordinal));

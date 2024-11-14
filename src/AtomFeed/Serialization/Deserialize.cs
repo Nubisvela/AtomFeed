@@ -209,7 +209,7 @@ public static partial class Serializer
         // Parse subtitle.
         var subtitleNode = document.DocumentElement?.SelectSingleNode("atom:subtitle", manager);
         if (subtitleNode != null)
-            feed.Subtitle = subtitleNode.InnerText;
+            feed.Subtitle = DeserializeText(subtitleNode, strict);
 
         return feed;
     }

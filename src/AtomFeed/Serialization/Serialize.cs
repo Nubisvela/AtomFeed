@@ -97,7 +97,7 @@ public static partial class Serializer
         if (feed.Subtitle is not null)
         {
             var subtitleElement = document.CreateElement("subtitle");
-            subtitleElement.InnerText = feed.Subtitle;
+            subtitleElement.InnerText = feed.Subtitle.Value;
             feedElement.AppendChild(subtitleElement);
         }
 
