@@ -355,6 +355,7 @@ public static partial class Serializer
             {
                 "html" => TextType.Html,
                 "xhtml" => TextType.Xhtml,
+                "text" => TextType.Text,
                 _ => strict
                     ? throw new ConstraintException($"AtomFeed: invalid text type of {node.Name}")
                     : TextType.Text
