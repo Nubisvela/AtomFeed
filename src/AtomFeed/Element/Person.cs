@@ -19,7 +19,7 @@ public class Author : Person
         {
             Name = person.Name,
             Email = person.Email,
-            Url = person.Url
+            Uri = person.Uri
         };
     }
 }
@@ -43,7 +43,7 @@ public class Contributor : Person
         {
             Name = person.Name,
             Email = person.Email,
-            Url = person.Url
+            Uri = person.Uri
         };
     }
 }
@@ -66,7 +66,7 @@ public class Person
     /// <summary>
     /// Contains a home page for the person.
     /// </summary>
-    public string? Url { get; set; }
+    public string? Uri { get; set; }
 
     public override string ToString() => Name;
 }

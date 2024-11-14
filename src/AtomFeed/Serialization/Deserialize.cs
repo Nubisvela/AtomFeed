@@ -420,9 +420,9 @@ public static partial class Serializer
             person.Email = emailNode.InnerText;
 
         // Get person url.
-        var uriNode = node.SelectSingleNode(".//*[name()='url']", manager);
+        var uriNode = node.SelectSingleNode(".//*[name()='uri']", manager);
         if (uriNode != null)
-            person.Url = uriNode.InnerText;
+            person.Uri = uriNode.InnerText;
 
         return person;
     }

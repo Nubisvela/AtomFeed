@@ -222,10 +222,10 @@ public static partial class Serializer
             }
 
             // Author URL node.
-            if (author.Url is not null)
+            if (author.Uri is not null)
             {
                 var urlElement = document.CreateElement("url");
-                urlElement.InnerText = author.Url;
+                urlElement.InnerText = author.Uri;
                 authorElement.AppendChild(urlElement);
             }
 
@@ -384,10 +384,10 @@ public static partial class Serializer
             }
 
             // Contributor URL node.
-            if (contributor.Url is not null)
+            if (contributor.Uri is not null)
             {
                 var urlElement = document.CreateElement("url");
-                urlElement.InnerText = contributor.Url;
+                urlElement.InnerText = contributor.Uri;
                 contributorElement.AppendChild(urlElement);
             }
 

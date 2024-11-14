@@ -23,12 +23,12 @@ public class AtomTests
             <author>
                 <name>AtomFeed</name>
                 <email>me@example.com</email>
-                <url>https://example.com/</url>
+                <uri>https://example.com/</uri>
             </author>
             <contributor>
                 <name>AtomFeed</name>
                 <email>me@example.com</email>
-                <url>https://example.com/</url>
+                <uri>https://example.com/</uri>
             </contributor>
             <entry>
                 <id>urn:uuid:01931f1f-656d-724e-942d-184a143d56cb</id>
@@ -43,12 +43,12 @@ public class AtomTests
                 <author>
                     <name>AtomFeed</name>
                     <email>me@example.com</email>
-                    <url>https://example.com/</url>
+                    <uri>https://example.com/</uri>
                 </author>
                 <contributor>
                     <name>AtomFeed</name>
                     <email>me@example.com</email>
-                    <url>https://example.com/</url>
+                    <uri>https://example.com/</uri>
                 </contributor>
                 <source>
                     <id>https://example.org/</id>
@@ -117,7 +117,7 @@ public class AtomTests
                 {
                     Name = _authorName,
                     Email = _authorEmail,
-                    Url = _authorUrl
+                    Uri = _authorUrl
                 }
             ],
             Contributors =
@@ -126,7 +126,7 @@ public class AtomTests
                 {
                     Name = _contributorName,
                     Email = _contributorEmail,
-                    Url = _contributorUrl
+                    Uri = _contributorUrl
                 }
             ],
             Icon = _icon,
@@ -304,12 +304,12 @@ public class AtomTests
         Assert.Single(feed.Authors);
         Assert.Equal(0, string.Compare(_authorName, feed.Authors[0].Name, StringComparison.Ordinal));
         Assert.Equal(0, string.Compare(_authorEmail, feed.Authors[0].Email, StringComparison.Ordinal));
-        Assert.Equal(0, string.Compare(_authorUrl, feed.Authors[0].Url, StringComparison.Ordinal));
+        Assert.Equal(0, string.Compare(_authorUrl, feed.Authors[0].Uri, StringComparison.Ordinal));
 
         Assert.Single(feed.Contributors);
         Assert.Equal(0, string.Compare(_contributorName, feed.Contributors[0].Name, StringComparison.Ordinal));
         Assert.Equal(0, string.Compare(_contributorEmail, feed.Contributors[0].Email, StringComparison.Ordinal));
-        Assert.Equal(0, string.Compare(_contributorUrl, feed.Contributors[0].Url, StringComparison.Ordinal));
+        Assert.Equal(0, string.Compare(_contributorUrl, feed.Contributors[0].Uri, StringComparison.Ordinal));
 
         Assert.Single(feed.Entries);
         Assert.Equal(0, string.Compare(_entryId, feed.Entries[0].Id, StringComparison.Ordinal));
