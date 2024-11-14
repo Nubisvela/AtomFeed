@@ -1,8 +1,9 @@
 # AtomFeed
 
-[![](https://img.shields.io/nuget/v/AtomFeed.svg)](https://www.nuget.org/packages/AtomFeed)
-[![](https://github.com/chrishyze/AtomFeed/actions/workflows/tests.yml/badge.svg?branch=main)](https://github.com/chrishyze/AtomFeed/workflows/Tests)
-[![](https://img.shields.io/badge/license-MIT-informational)](https://www.nuget.org/packages/AtomFeed)
+[![latest version](https://img.shields.io/nuget/v/AtomFeed.svg)](https://www.nuget.org/packages/AtomFeed)
+[![downloads](https://img.shields.io/nuget/dt/AtomFeed.svg)](https://www.nuget.org/packages/AtomFeed)
+[![tests status](https://github.com/chrishyze/AtomFeed/actions/workflows/tests.yml/badge.svg?branch=main)](https://github.com/chrishyze/AtomFeed/workflows/Tests)
+[![license](https://img.shields.io/badge/license-MIT-informational)](https://www.nuget.org/packages/AtomFeed)
 
 The Atom Syndication Format is an XML language used for web feeds.
 
@@ -12,7 +13,9 @@ This project is a .NET implement of Atom 1.0.
 
 - Serialize atom feed into XML document
 - Deserialize atom feed from XML
-- Follows and conforms to [W3C Atom feed validation](https://validator.w3.org/feed/docs/atom.html).
+- Follows and conforms to [W3C Atom feed validation](https://validator.w3.org/feed/docs/atom.html)
+- Supports .NET 8 and .NET 9, Native AOT compatible
+- Zero dependencies
 
 ## Get Started
 
@@ -89,7 +92,7 @@ The strict mode can be used to validate the feed, it follows the [W3C Atom feed 
 ```csharp
 var xml = string.Empty;
 
-// An System.Data.ArgumentException will be thrown,
+// A System.Data.ArgumentException will be thrown,
 // because the feed is empty.
 var feed = Atom.Deserialize(xml, true);
 ```
@@ -102,7 +105,7 @@ const string xml =
     </feed>
     """;
 
-// An System.Data.ConstraintException will be thrown,
+// A System.Data.ConstraintException will be thrown,
 // because the feed <id> tag is missing.
 var feed = Atom.Deserialize(xml, true);
 ```
