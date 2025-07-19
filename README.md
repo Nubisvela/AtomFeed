@@ -2,7 +2,7 @@
 
 [![latest version](https://img.shields.io/nuget/v/AtomFeed.svg)](https://www.nuget.org/packages/AtomFeed)
 [![downloads](https://img.shields.io/nuget/dt/AtomFeed.svg)](https://www.nuget.org/packages/AtomFeed)
-[![tests status](https://github.com/chrishyze/AtomFeed/actions/workflows/tests.yml/badge.svg?branch=main)](https://github.com/chrishyze/AtomFeed/workflows/Tests)
+[![tests status](https://github.com/chrishyze/AtomFeed/actions/workflows/tests.yml/badge.svg?branch=main)](https://github.com/chrishyze/AtomFeed/actions/workflows/tests.yml)
 [![license](https://img.shields.io/badge/license-MIT-informational)](https://www.nuget.org/packages/AtomFeed)
 
 The Atom Syndication Format is an XML language used for web feeds.
