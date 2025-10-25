@@ -1,0 +1,6 @@
+﻿<Solution>
+    <Project Path="examples\FeedReader\FeedReader.csproj" Type="Classic C#"/>
+    <Project Path="examples\FeedServer\FeedServer.csproj" Type="Classic C#"/>
+    <Project Path="src\AtomFeed\AtomFeed.csproj" Type="Classic C#"/>
+    <Project Path="tests\AtomFeed.Tests\AtomFeed.Tests.csproj" Type="Classic C#"/>
+</Solution>
