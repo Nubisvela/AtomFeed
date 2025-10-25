@@ -17,8 +17,10 @@ jobs:
           dotnet-version: 9.0.x
       - name: Run dotnet format
         run: |
-          dotnet format src/AtomFeed/AtomFeed.csproj --verbosity normal --verify-no-changes
-          dotnet format tests/AtomFeed.Tests/AtomFeed.Tests.csproj --verbosity normal --verify-no-changes
+          dotnet format style src/AtomFeed/AtomFeed.csproj --verbosity normal --verify-no-changes
+          dotnet format analyzers src/AtomFeed/AtomFeed.csproj --verbosity normal --verify-no-changes
+          dotnet format style tests/AtomFeed.Tests/AtomFeed.Tests.csproj --verbosity normal --verify-no-changes
+          dotnet format analyzers tests/AtomFeed.Tests/AtomFeed.Tests.csproj --verbosity normal --verify-no-changes
 
   unit-test:
     runs-on: ubuntu-latest
