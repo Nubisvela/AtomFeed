@@ -3,20 +3,15 @@ namespace AtomFeed.Element;
 /// <summary>
 /// <inheritdoc cref="Person"/>
 /// </summary>
-public class Author : Person
-{
-    public static implicit operator Author(string name)
-    {
-        return new Author
-        {
+public class Author : Person {
+    public static implicit operator Author(string name) {
+        return new Author {
             Name = name
         };
     }
 
-    public static Author FromPerson(Person person)
-    {
-        return new Author
-        {
+    public static Author FromPerson(Person person) {
+        return new Author {
             Name = person.Name,
             Email = person.Email,
             Uri = person.Uri
@@ -27,20 +22,15 @@ public class Author : Person
 /// <summary>
 /// <inheritdoc cref="Person"/>
 /// </summary>
-public class Contributor : Person
-{
-    public static implicit operator Contributor(string name)
-    {
-        return new Contributor
-        {
+public class Contributor : Person {
+    public static implicit operator Contributor(string name) {
+        return new Contributor {
             Name = name
         };
     }
 
-    public static Contributor FromPerson(Person person)
-    {
-        return new Contributor
-        {
+    public static Contributor FromPerson(Person person) {
+        return new Contributor {
             Name = person.Name,
             Email = person.Email,
             Uri = person.Uri
@@ -51,8 +41,7 @@ public class Contributor : Person
 /// <summary>
 /// <c>Author</c> and <c>Contributor</c> describe a person, corporation, or similar entity.
 /// </summary>
-public class Person
-{
+public class Person {
     /// <summary>
     /// Conveys a human-readable name for the person.
     /// </summary>
@@ -68,5 +57,7 @@ public class Person
     /// </summary>
     public string? Uri { get; set; }
 
-    public override string ToString() => Name;
+    public override string ToString() {
+        return Name;
+    }
 }

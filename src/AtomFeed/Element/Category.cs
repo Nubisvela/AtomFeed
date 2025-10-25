@@ -3,8 +3,7 @@ namespace AtomFeed.Element;
 /// <summary>
 /// Specifies a category that the feed or entry belongs to.
 /// </summary>
-public class Category
-{
+public class Category {
     /// <summary>
     /// Identifies the category.
     /// </summary>
@@ -20,13 +19,13 @@ public class Category
     /// </summary>
     public string? Label { get; set; }
 
-    public static implicit operator Category(string value)
-    {
-        return new Category
-        {
+    public static implicit operator Category(string value) {
+        return new Category {
             Term = value
         };
     }
 
-    public override string ToString() => Term;
+    public override string ToString() {
+        return Term;
+    }
 }

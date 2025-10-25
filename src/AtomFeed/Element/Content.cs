@@ -13,8 +13,7 @@ namespace AtomFeed.Element;
 /// of this type is contained in <c>Value</c>.</para>
 /// <para>Otherwise, a base64 encoded document of the indicated media type is contained in <c>Value</c>.</para>
 /// </summary>
-public class Content
-{
+public class Content {
     public string? Value { get; set; }
 
     public string? Type { get; set; }

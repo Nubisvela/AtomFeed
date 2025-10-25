@@ -12,8 +12,7 @@ Console.WriteLine("HTTP response received.");
 
 var feed = Atom.Deserialize(atomResponse);
 
-if (feed == null)
-{
+if (feed == null) {
     Console.WriteLine("Failed to deserialize feed.");
     return;
 }
@@ -26,16 +25,14 @@ Console.WriteLine($"> Feed Subtitle: {feed.Subtitle}");
 Console.WriteLine($"> Feed Updated: {feed.Updated:yyyy-MM-ddTHH:mm:ssZ}");
 
 Console.WriteLine("> Links:");
-for (var i = 0; i < feed.Links.Count; i++)
-{
+for (var i = 0; i < feed.Links.Count; i++) {
     var link = feed.Links[i];
     var prefix = i == feed.Links.Count - 1 ? "  \u2514\u2500" : "  \u251c\u2500";
     Console.WriteLine($"{prefix} Links[{i}] Href: {link.Href}, Rel: {link.Relation}, Type: {link.Type}");
 }
 
 Console.WriteLine("> Entries:");
-for (var i = 0; i < feed.Entries.Count; i++)
-{
+for (var i = 0; i < feed.Entries.Count; i++) {
     var entry = feed.Entries[i];
     var prefix = i == feed.Entries.Count - 1 ? "  \u2514\u2500" : "  \u251c\u2500";
     Console.WriteLine($"{prefix} Entries[{i}]");

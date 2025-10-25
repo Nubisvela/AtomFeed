@@ -5,16 +5,14 @@ using AtomFeed.Serialization;
 
 namespace AtomFeed;
 
-public static class Atom
-{
+public static class Atom {
     /// <summary>
     /// Serialize a feed to an XML document.
     /// </summary>
     /// <param name="feed">Feed object.</param>
     /// <param name="encoding">XML declaration encoding.</param>
     /// <returns></returns>
-    public static XmlDocument Serialize(Feed feed, Encoding? encoding = null)
-    {
+    public static XmlDocument Serialize(Feed feed, Encoding? encoding = null) {
         return Serializer.SerializeFeed(feed, encoding);
     }
 
@@ -28,8 +26,7 @@ public static class Atom
     /// <c>null</c> or <c>default</c>.</param>
     /// <returns>Feed instance. If the <c>strict</c> is <c>false</c> and the <c>xml</c> is invalid,
     /// then <c>null</c> is returned.</returns>
-    public static Feed? Deserialize(string xml, bool strict = false)
-    {
+    public static Feed? Deserialize(string xml, bool strict = false) {
         return Serializer.DeserializeFeed(xml, strict);
     }
 
@@ -41,8 +38,7 @@ public static class Atom
     /// <returns>Feed instance. If the <c>strict</c> is <c>false</c> and the <c>buffer</c> is invalid,
     /// then <c>null</c> is returned.</returns>
     /// <seealso cref="Deserialize(string,bool)"/>
-    public static Feed? Deserialize(ReadOnlySpan<byte> buffer, bool strict = false)
-    {
+    public static Feed? Deserialize(ReadOnlySpan<byte> buffer, bool strict = false) {
         return Serializer.DeserializeFeed(buffer, strict);
     }
 
@@ -54,8 +50,7 @@ public static class Atom
     /// <returns>Feed instance. If the <c>strict</c> is <c>false</c> and the <c>stream</c> is invalid,
     /// then <c>null</c> is returned.</returns>
     /// <seealso cref="Deserialize(string,bool)"/>
-    public static Feed? Deserialize(Stream stream, bool strict = false)
-    {
+    public static Feed? Deserialize(Stream stream, bool strict = false) {
         return Serializer.DeserializeFeed(stream, strict);
     }
 }

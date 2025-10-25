@@ -3,8 +3,7 @@ namespace AtomFeed.Element;
 /// <summary>
 /// Link is patterned after html's link element.
 /// </summary>
-public class Link
-{
+public class Link {
     /// <summary>
     /// The URI of the referenced resource (typically a Web page).
     /// </summary>
@@ -51,13 +50,13 @@ public class Link
     /// </summary>
     public long? Length { get; set; }
 
-    public static implicit operator Link(string href)
-    {
-        return new Link
-        {
+    public static implicit operator Link(string href) {
+        return new Link {
             Href = href
         };
     }
 
-    public override string ToString() => Href;
+    public override string ToString() {
+        return Href;
+    }
 }

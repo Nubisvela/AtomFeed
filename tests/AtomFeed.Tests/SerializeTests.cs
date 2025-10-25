@@ -3,14 +3,11 @@ using AtomFeed.Element;
 
 namespace AtomFeed.Tests;
 
-public class SerializeTests
-{
+public class SerializeTests {
     [Fact]
-    public void EmptyFeedIdTest()
-    {
+    public void EmptyFeedIdTest() {
         // Arrange
-        var feed = new Feed
-        {
+        var feed = new Feed {
             Id = "",
             Title = "",
             Updated = DateTimeOffset.UtcNow
@@ -24,11 +21,9 @@ public class SerializeTests
     }
 
     [Fact]
-    public void EmptyFeedTitleTest()
-    {
+    public void EmptyFeedTitleTest() {
         // Arrange
-        var feed = new Feed
-        {
+        var feed = new Feed {
             Id = "id",
             Title = "",
             Updated = DateTimeOffset.UtcNow
@@ -42,18 +37,14 @@ public class SerializeTests
     }
 
     [Fact]
-    public void EmptyEntryIdTest()
-    {
+    public void EmptyEntryIdTest() {
         // Arrange
-        var feed = new Feed
-        {
+        var feed = new Feed {
             Id = "id",
             Title = "title",
             Updated = DateTimeOffset.UtcNow,
-            Entries =
-            [
-                new Entry
-                {
+            Entries = [
+                new Entry {
                     Id = "",
                     Title = "",
                     Updated = DateTimeOffset.UtcNow
@@ -69,18 +60,14 @@ public class SerializeTests
     }
 
     [Fact]
-    public void EmptyEntryTitleTest()
-    {
+    public void EmptyEntryTitleTest() {
         // Arrange
-        var feed = new Feed
-        {
+        var feed = new Feed {
             Id = "id",
             Title = "title",
             Updated = DateTimeOffset.UtcNow,
-            Entries =
-            [
-                new Entry
-                {
+            Entries = [
+                new Entry {
                     Id = "id",
                     Title = "",
                     Updated = DateTimeOffset.UtcNow

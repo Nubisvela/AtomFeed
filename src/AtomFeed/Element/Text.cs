@@ -5,26 +5,24 @@ namespace AtomFeed.Element;
 /// <c>rights</c> contain human-readable text, usually in small quantities.
 /// The type attribute determines how this information is encoded (default="text").
 /// </summary>
-public class Text
-{
+public class Text {
     public required string Value { get; set; }
 
     public TextType Type { get; set; } = TextType.Text;
 
-    public static implicit operator Text(string value)
-    {
-        return new Text
-        {
+    public static implicit operator Text(string value) {
+        return new Text {
             Value = value,
             Type = TextType.Text
         };
     }
 
-    public override string ToString() => Value;
+    public override string ToString() {
+        return Value;
+    }
 }
 
-public enum TextType
-{
+public enum TextType {
     /// <summary>
     /// Plain text with no entity escaped html.
     /// </summary>

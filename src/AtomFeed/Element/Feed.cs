@@ -3,8 +3,7 @@ namespace AtomFeed.Element;
 /// <summary>
 /// Atom feed root element.
 /// </summary>
-public class Feed
-{
+public class Feed {
     /// <summary>
     /// <c>Required</c>
     /// Identifies the feed using a universally unique and permanent URI. If you have a long-term,

@@ -3,8 +3,7 @@ namespace AtomFeed.Element;
 /// <summary>
 /// Identifies the software used to generate the feed, for debugging and other purposes.
 /// </summary>
-public class Generator
-{
+public class Generator {
     /// <summary>
     /// Name of the software.
     /// </summary>
@@ -20,13 +19,13 @@ public class Generator
     /// </summary>
     public string? Version { get; set; } = "1.0.0";
 
-    public static implicit operator Generator(string value)
-    {
-        return new Generator
-        {
+    public static implicit operator Generator(string value) {
+        return new Generator {
             Value = value
         };
     }
 
-    public override string ToString() => Value;
+    public override string ToString() {
+        return Value;
+    }
 }

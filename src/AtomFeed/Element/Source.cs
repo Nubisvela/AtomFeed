@@ -3,8 +3,7 @@ namespace AtomFeed.Element;
 /// <summary>
 /// Contains metadata from the source feed if the entry is a copy.
 /// </summary>
-public class Source
-{
+public class Source {
     /// <summary>
     /// <c>Required</c>
     /// Identifies the source using a universally unique and permanent URI.

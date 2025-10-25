@@ -4,8 +4,7 @@ using AtomFeed.Element;
 
 namespace AtomFeed.Tests;
 
-public class AtomTests
-{
+public class AtomTests {
     private readonly string _feedXml =
         """
         <?xml version="1.0" encoding="utf-8"?>
@@ -90,40 +89,31 @@ public class AtomTests
     private readonly DateTimeOffset _sourceUpdated = DateTimeOffset.Parse("2003-12-13T18:30:02Z");
 
     [Fact]
-    public void SerializeTest()
-    {
+    public void SerializeTest() {
         // Arrange
-        var feed = new Feed
-        {
+        var feed = new Feed {
             Id = _feedId,
             Title = _feedTitle,
             Updated = _feedUpdated,
             Links = [_feedLink],
-            Categories =
-            [
-                new Category
-                {
+            Categories = [
+                new Category {
                     Term = _feedCategory
                 }
             ],
-            Generator = new Generator
-            {
+            Generator = new Generator {
                 Value = _generatorValue,
                 Version = _generatorVer
             },
-            Authors =
-            [
-                new Author
-                {
+            Authors = [
+                new Author {
                     Name = _authorName,
                     Email = _authorEmail,
                     Uri = _authorUrl
                 }
             ],
-            Contributors =
-            [
-                new Contributor
-                {
+            Contributors = [
+                new Contributor {
                     Name = _contributorName,
                     Email = _contributorEmail,
                     Uri = _contributorUrl
@@ -133,33 +123,26 @@ public class AtomTests
             Logo = _logo,
             Rights = _feedRights,
             Subtitle = _subtitle,
-            Entries =
-            [
-                new Entry
-                {
+            Entries = [
+                new Entry {
                     Id = _entryId,
                     Title = _entryTitle,
                     Updated = _entryUpdated,
                     Links = [_entryLink],
                     Summary = _entrySummary,
-                    Content = new Content
-                    {
+                    Content = new Content {
                         Value = _entryContent
                     },
-                    Categories =
-                    [
-                        new Category
-                        {
+                    Categories = [
+                        new Category {
                             Term = _entryCategory
                         }
                     ],
-                    Rights = new Text
-                    {
+                    Rights = new Text {
                         Value = _entryRights
                     },
                     Published = _entryPublished,
-                    Source = new Source
-                    {
+                    Source = new Source {
                         Id = _sourceId,
                         Title = _sourceTitle,
                         Updated = _sourceUpdated
@@ -189,9 +172,7 @@ public class AtomTests
         Assert.Single(authors);
         Assert.True(authors.Item(0) is { HasChildNodes: true });
         foreach (XmlNode? node in authors.Item(0)!.ChildNodes)
-        {
-            switch (node?.Name)
-            {
+            switch (node?.Name) {
                 case "name":
                     Assert.Equal(_authorName, node.InnerText);
                     break;
@@ -202,15 +183,12 @@ public class AtomTests
                     Assert.Equal(_authorUrl, node.InnerText);
                     break;
             }
-        }
 
         var contributors = xmlDoc.GetElementsByTagName("contributor");
         Assert.Single(contributors);
         Assert.True(contributors.Item(0) is { HasChildNodes: true });
         foreach (XmlNode? node in contributors.Item(0)!.ChildNodes)
-        {
-            switch (node?.Name)
-            {
+            switch (node?.Name) {
                 case "name":
                     Assert.Equal(_contributorName, node.InnerText);
                     break;
@@ -221,15 +199,12 @@ public class AtomTests
                     Assert.Equal(_contributorUrl, node.InnerText);
                     break;
             }
-        }
 
         var entries = xmlDoc.GetElementsByTagName("entry");
         Assert.Single(entries);
         Assert.True(entries.Item(0) is { HasChildNodes: true });
         foreach (XmlNode? node in entries.Item(0)!.ChildNodes)
-        {
-            switch (node?.Name)
-            {
+            switch (node?.Name) {
                 case "id":
                     Assert.Equal(_entryId, node.InnerText);
                     break;
@@ -264,12 +239,10 @@ public class AtomTests
                         node.SelectSingleNode(".//*[name()='updated']")?.InnerText);
                     break;
             }
-        }
     }
 
     [Fact]
-    public void DeserializeTest()
-    {
+    public void DeserializeTest() {
         // Arrange
         var feedBytes = Encoding.UTF8.GetBytes(_feedXml);
         var feedStream = new MemoryStream(feedBytes);
@@ -285,8 +258,7 @@ public class AtomTests
         AssertDeserialized(feedFromStream);
     }
 
-    private void AssertDeserialized(Feed? feed)
-    {
+    private void AssertDeserialized(Feed? feed) {
         Assert.NotNull(feed);
 
         Assert.Equal(0, string.Compare(_feedId, feed.Id, StringComparison.Ordinal));

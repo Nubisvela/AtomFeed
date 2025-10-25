@@ -2,11 +2,9 @@ using AtomFeed.Serialization;
 
 namespace AtomFeed.Tests;
 
-public class DeserializeTests
-{
+public class DeserializeTests {
     [Fact]
-    public void MinimumFeedTest()
-    {
+    public void MinimumFeedTest() {
         // Arrange
         const string xml =
             """
@@ -36,8 +34,7 @@ public class DeserializeTests
     }
 
     [Fact]
-    public void InvalidFeedTest()
-    {
+    public void InvalidFeedTest() {
         // Arrange
         const string xml1 = "";
         const string xml2 =

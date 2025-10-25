@@ -1,7 +1,6 @@
 namespace AtomFeed;
 
-public static class Constants
-{
+public static class Constants {
     /// <summary>
     /// Atom XML namespace.
     /// </summary>

@@ -2,11 +2,9 @@ using System.Data;
 
 namespace AtomFeed.Tests;
 
-public class DeserializeStrictModeTests
-{
+public class DeserializeStrictModeTests {
     [Fact]
-    public void EmptySourceTest()
-    {
+    public void EmptySourceTest() {
         // Arrange
         var xmlString = string.Empty;
         var xmlBytes = Array.Empty<byte>();
@@ -24,8 +22,7 @@ public class DeserializeStrictModeTests
     }
 
     [Fact]
-    public void NoFeeIdTest()
-    {
+    public void NoFeeIdTest() {
         // Arrange
         const string xml =
             """
@@ -42,8 +39,7 @@ public class DeserializeStrictModeTests
     }
 
     [Fact]
-    public void NoFeedTitleTest()
-    {
+    public void NoFeedTitleTest() {
         // Arrange
         const string xml =
             """
@@ -61,8 +57,7 @@ public class DeserializeStrictModeTests
     }
 
     [Fact]
-    public void NoFeedUpdatedTest()
-    {
+    public void NoFeedUpdatedTest() {
         // Arrange
         const string xml =
             """
@@ -81,8 +76,7 @@ public class DeserializeStrictModeTests
     }
 
     [Fact]
-    public void InvalidFeedUpdatedTest()
-    {
+    public void InvalidFeedUpdatedTest() {
         // Arrange
         const string xml =
             """
@@ -102,8 +96,7 @@ public class DeserializeStrictModeTests
     }
 
     [Fact]
-    public void NoEntryIdTest()
-    {
+    public void NoEntryIdTest() {
         // Arrange
         const string xml =
             """
@@ -126,8 +119,7 @@ public class DeserializeStrictModeTests
     }
 
     [Fact]
-    public void NoEntryTitleTest()
-    {
+    public void NoEntryTitleTest() {
         // Arrange
         const string xml =
             """
@@ -150,8 +142,7 @@ public class DeserializeStrictModeTests
     }
 
     [Fact]
-    public void NoEntryUpdatedTest()
-    {
+    public void NoEntryUpdatedTest() {
         // Arrange
         const string xml =
             """
@@ -175,8 +166,7 @@ public class DeserializeStrictModeTests
     }
 
     [Fact]
-    public void InvalidEntryUpdatedTest()
-    {
+    public void InvalidEntryUpdatedTest() {
         // Arrange
         const string xml =
             """
@@ -201,8 +191,7 @@ public class DeserializeStrictModeTests
     }
 
     [Fact]
-    public void NoFeedAuthorNameTest()
-    {
+    public void NoFeedAuthorNameTest() {
         // Arrange
         const string xml =
             """
@@ -225,8 +214,7 @@ public class DeserializeStrictModeTests
     }
 
     [Fact]
-    public void NoEntryAuthorNameTest()
-    {
+    public void NoEntryAuthorNameTest() {
         // Arrange
         const string xml =
             """
@@ -254,8 +242,7 @@ public class DeserializeStrictModeTests
     }
 
     [Fact]
-    public void NoFeedLinkHrefTest()
-    {
+    public void NoFeedLinkHrefTest() {
         // Arrange
         const string xml =
             """
@@ -276,8 +263,7 @@ public class DeserializeStrictModeTests
     }
 
     [Fact]
-    public void NoEntryLinkHrefTest()
-    {
+    public void NoEntryLinkHrefTest() {
         // Arrange
         const string xml =
             """
@@ -303,8 +289,7 @@ public class DeserializeStrictModeTests
     }
 
     [Fact]
-    public void NoFeedCategoryTermTest()
-    {
+    public void NoFeedCategoryTermTest() {
         // Arrange
         const string xml =
             """
@@ -325,8 +310,7 @@ public class DeserializeStrictModeTests
     }
 
     [Fact]
-    public void NoEntryCategoryTermTest()
-    {
+    public void NoEntryCategoryTermTest() {
         // Arrange
         const string xml =
             """
@@ -352,8 +336,7 @@ public class DeserializeStrictModeTests
     }
 
     [Fact]
-    public void NoGeneratorNameTest()
-    {
+    public void NoGeneratorNameTest() {
         // Arrange
         const string xml =
             """
@@ -375,8 +358,7 @@ public class DeserializeStrictModeTests
     }
 
     [Fact]
-    public void NoEntrySourceIdTest()
-    {
+    public void NoEntrySourceIdTest() {
         // Arrange
         const string xml =
             """
@@ -403,8 +385,7 @@ public class DeserializeStrictModeTests
     }
 
     [Fact]
-    public void NoEntrySourceTitleTest()
-    {
+    public void NoEntrySourceTitleTest() {
         // Arrange
         const string xml =
             """
@@ -432,8 +413,7 @@ public class DeserializeStrictModeTests
     }
 
     [Fact]
-    public void NoEntrySourceUpdatedTest()
-    {
+    public void NoEntrySourceUpdatedTest() {
         // Arrange
         const string xml =
             """

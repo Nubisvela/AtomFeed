@@ -9,57 +9,45 @@ app.MapGet("/", Feed);
 app.Run();
 return;
 
-IResult Feed()
-{
+IResult Feed() {
     // Create an Atom feed.
-    var feed = new Feed
-    {
+    var feed = new Feed {
         Id = "urn:uuid:" + Guid.NewGuid(),
         Title = "Feed Example",
         Updated = DateTimeOffset.UtcNow,
-        Links =
-        [
-            new Link
-            {
+        Links = [
+            new Link {
                 Href = "https://example.com/",
                 Type = "text/html"
             }
         ],
-        Authors =
-        [
-            new Author
-            {
+        Authors = [
+            new Author {
                 Name = "Example Author",
                 Email = "me@example.com",
                 Uri = "https://example.com/"
             }
         ],
-        Generator = new Generator
-        {
+        Generator = new Generator {
             Value = "AtomFeed",
             Uri = "https://github.com/chrishyze/AtomFeed",
             Version = "latest"
         },
         Icon = "/icon.png",
         Logo = "/logo.png",
-        Entries =
-        [
-            new Entry
-            {
+        Entries = [
+            new Entry {
                 Id = "urn:uuid:" + Guid.NewGuid(),
                 Title = "The First Article",
                 Updated = DateTimeOffset.UtcNow,
-                Links =
-                [
-                    new Link
-                    {
+                Links = [
+                    new Link {
                         Href = "https://example.com/first-article",
                         Type = "text/html"
                     }
                 ],
                 Summary = "The summary of the first article.",
-                Content = new Content
-                {
+                Content = new Content {
                     Type = "text/plain",
                     Value = "The content of the first article."
                 }

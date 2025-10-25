@@ -3,8 +3,7 @@ namespace AtomFeed.Element;
 /// <summary>
 /// An entry would be a single post on a weblog.
 /// </summary>
-public class Entry
-{
+public class Entry {
     /// <summary>
     /// <c>Required</c>
     /// Identifies the entry using a universally unique and permanent URI.

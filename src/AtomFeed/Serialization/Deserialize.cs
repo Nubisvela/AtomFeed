@@ -5,8 +5,7 @@ using AtomFeed.Element;
 
 namespace AtomFeed.Serialization;
 
-public static partial class Serializer
-{
+public static partial class Serializer {
     /// <summary>
     /// Deserialize feed from XML string.
     /// </summary>
@@ -18,8 +17,7 @@ public static partial class Serializer
     /// <returns>Feed object. If the <c>strict</c> is <c>false</c> and the <c>xml</c> is invalid,
     /// then <c>null</c> is returned.</returns>
     /// <exception cref="ArgumentException"></exception>
-    public static Feed? DeserializeFeed(string xml, bool strict = false)
-    {
+    public static Feed? DeserializeFeed(string xml, bool strict = false) {
         if (string.IsNullOrEmpty(xml))
             return strict ? throw new ArgumentException("AtomFeed: xml string can not be empty") : null;
 
@@ -35,8 +33,7 @@ public static partial class Serializer
     /// then <c>null</c> is returned.</returns>
     /// <exception cref="ArgumentException"></exception>
     /// <seealso cref="DeserializeFeed(string,bool)"/>
-    public static Feed? DeserializeFeed(ReadOnlySpan<byte> buffer, bool strict = false)
-    {
+    public static Feed? DeserializeFeed(ReadOnlySpan<byte> buffer, bool strict = false) {
         if (buffer.Length == 0)
             return strict ? throw new ArgumentException("AtomFeed: xml buffer can not be empty") : null;
 
@@ -57,8 +54,7 @@ public static partial class Serializer
     /// <exception cref="ArgumentException"></exception>
     /// <exception cref="ConstraintException"></exception>
     /// <seealso cref="DeserializeFeed(string,bool)"/>
-    public static Feed? DeserializeFeed(Stream stream, bool strict = false)
-    {
+    public static Feed? DeserializeFeed(Stream stream, bool strict = false) {
         if (stream.Length == 0)
             return strict ? throw new ArgumentException("AtomFeed: xml stream can not be empty") : null;
 
@@ -69,12 +65,9 @@ public static partial class Serializer
 
         // Load XmlDocument.
         var document = new XmlDocument();
-        try
-        {
+        try {
             document.Load(xmlReader);
-        }
-        catch
-        {
+        } catch {
             if (strict) throw;
             return null;
         }
@@ -108,74 +101,58 @@ public static partial class Serializer
         var entries = new List<Entry>();
         var entryNodes = document.DocumentElement?.SelectNodes("atom:entry", manager);
         if (entryNodes != null)
-        {
-            for (var i = 0; i < entryNodes.Count; i++)
-            {
+            for (var i = 0; i < entryNodes.Count; i++) {
                 var entryNode = entryNodes[i];
                 if (entryNode is not { HasChildNodes: true }) continue;
                 var entry = DeserializeEntry(entryNode, manager, strict);
                 if (entry != null) entries.Add(entry);
             }
-        }
 
         // Parse authors.
         var authors = new List<Author>();
         var authorNodes = document.DocumentElement?.SelectNodes("atom:author", manager);
         if (authorNodes != null)
-        {
-            for (var i = 0; i < authorNodes.Count; i++)
-            {
+            for (var i = 0; i < authorNodes.Count; i++) {
                 var authorNode = authorNodes[i];
                 if (authorNode is not { HasChildNodes: true }) continue;
                 var person = DeserializePerson(authorNode, manager, strict, "feed");
                 if (person != null) authors.Add(Author.FromPerson(person));
             }
-        }
 
         // Parse links.
         var links = new List<Link>();
         var linkNodes = document.DocumentElement?.SelectNodes("atom:link", manager);
         if (linkNodes != null)
-        {
-            for (var i = 0; i < linkNodes.Count; i++)
-            {
+            for (var i = 0; i < linkNodes.Count; i++) {
                 var linkNode = linkNodes[i];
                 if (linkNode is not { Attributes.Count: > 0 }) continue;
                 var link = DeserializeLink(linkNode, strict, "feed");
                 if (link != null) links.Add(link);
             }
-        }
 
         // Parse categories.
         var categories = new List<Category>();
         var categoryNodes = document.DocumentElement?.SelectNodes("atom:category", manager);
         if (categoryNodes != null)
-        {
-            for (var i = 0; i < categoryNodes.Count; i++)
-            {
+            for (var i = 0; i < categoryNodes.Count; i++) {
                 var categoryNode = categoryNodes[i];
                 if (categoryNode is not { Attributes.Count: > 0 }) continue;
                 var category = DeserializeCategory(categoryNode, strict, "feed");
                 if (category != null) categories.Add(category);
             }
-        }
 
         // Parse contributors.
         var contributors = new List<Contributor>();
         var contributorNodes = document.DocumentElement?.SelectNodes("atom:contributor", manager);
         if (contributorNodes != null)
-        {
-            for (var i = 0; i < contributorNodes.Count; i++)
-            {
+            for (var i = 0; i < contributorNodes.Count; i++) {
                 var contributorNode = contributorNodes[i];
                 if (contributorNode is not { HasChildNodes: true }) continue;
                 var person = DeserializePerson(contributorNode, manager, strict, "feed");
                 if (person != null) contributors.Add(Contributor.FromPerson(person));
             }
-        }
 
-        var feed = new Feed
-        {
+        var feed = new Feed {
             Id = id,
             Title = title,
             Updated = updated,
@@ -223,8 +200,7 @@ public static partial class Serializer
     /// <returns>Entry object. If strict mode is disabled and the node is invalid,
     /// then <c>null</c> is returned.</returns>
     /// <exception cref="ConstraintException"></exception>
-    private static Entry? DeserializeEntry(XmlNode node, XmlNamespaceManager manager, bool strict)
-    {
+    private static Entry? DeserializeEntry(XmlNode node, XmlNamespaceManager manager, bool strict) {
         // Get entry id.
         var idNode = node.SelectSingleNode(".//*[name()='id']", manager);
         if (idNode == null)
@@ -244,8 +220,7 @@ public static partial class Serializer
         if (!DateTimeOffset.TryParse(updatedNode.InnerText, out var updated))
             return strict ? throw new ConstraintException("AtomFeed: invalid entry updated") : null;
 
-        var entry = new Entry
-        {
+        var entry = new Entry {
             Id = id,
             Title = title,
             Updated = updated
@@ -254,15 +229,12 @@ public static partial class Serializer
         // Get entry authors.
         var authorNodes = node.SelectNodes(".//*[name()='author']", manager);
         if (authorNodes != null)
-        {
-            for (var i = 0; i < authorNodes.Count; i++)
-            {
+            for (var i = 0; i < authorNodes.Count; i++) {
                 var authorNode = authorNodes[i];
                 if (authorNode is not { HasChildNodes: true }) continue;
                 var person = DeserializePerson(authorNode, manager, strict, "entry");
                 if (person != null) entry.Authors.Add(Author.FromPerson(person));
             }
-        }
 
         // Get entry content.
         var contentNode = node.SelectSingleNode(".//*[name()='content']", manager);
@@ -272,15 +244,12 @@ public static partial class Serializer
         // Get entry links.
         var linkNodes = node.SelectNodes(".//*[name()='link']", manager);
         if (linkNodes != null)
-        {
-            for (var i = 0; i < linkNodes.Count; i++)
-            {
+            for (var i = 0; i < linkNodes.Count; i++) {
                 var linkNode = linkNodes[i];
                 if (linkNode is not { Attributes.Count: > 0 }) continue;
                 var link = DeserializeLink(linkNode, strict, "entry");
                 if (link != null) entry.Links.Add(link);
             }
-        }
 
         // Get entry summary.
         var summaryNode = node.SelectSingleNode(".//*[name()='summary']", manager);
@@ -290,28 +259,22 @@ public static partial class Serializer
         // Get entry categories.
         var categoryNodes = node.SelectNodes(".//*[name()='category']", manager);
         if (categoryNodes != null)
-        {
-            for (var i = 0; i < categoryNodes.Count; i++)
-            {
+            for (var i = 0; i < categoryNodes.Count; i++) {
                 var categoryNode = categoryNodes[i];
                 if (categoryNode is not { Attributes.Count: > 0 }) continue;
                 var category = DeserializeCategory(categoryNode, strict, "entry");
                 if (category != null) entry.Categories.Add(category);
             }
-        }
 
         // Get entry contributors.
         var contributorNodes = node.SelectNodes(".//*[name()='contributor']", manager);
         if (contributorNodes != null)
-        {
-            for (var i = 0; i < contributorNodes.Count; i++)
-            {
+            for (var i = 0; i < contributorNodes.Count; i++) {
                 var contributorNode = contributorNodes[i];
                 if (contributorNode is not { HasChildNodes: true }) continue;
                 var person = DeserializePerson(contributorNode, manager, strict, "entry");
                 if (person != null) entry.Contributors.Add(Contributor.FromPerson(person));
             }
-        }
 
         // Get entry published.
         var publishedNode = node.SelectSingleNode(".//*[name()='published']", manager);
@@ -338,10 +301,8 @@ public static partial class Serializer
     /// <param name="strict">Strict mode.</param>
     /// <returns>Text object.</returns>
     /// <exception cref="ConstraintException"></exception>
-    private static Text DeserializeText(XmlNode node, bool strict)
-    {
-        var text = new Text
-        {
+    private static Text DeserializeText(XmlNode node, bool strict) {
+        var text = new Text {
             Value = node.InnerText
         };
 
@@ -351,8 +312,7 @@ public static partial class Serializer
         if (typeAttribute == null)
             text.Type = TextType.Text;
         else
-            text.Type = typeAttribute.Value switch
-            {
+            text.Type = typeAttribute.Value switch {
                 "html" => TextType.Html,
                 "xhtml" => TextType.Xhtml,
                 "text" => TextType.Text,
@@ -369,8 +329,7 @@ public static partial class Serializer
     /// </summary>
     /// <param name="node">XML node.</param>
     /// <returns>Content object.</returns>
-    private static Content DeserializeContent(XmlNode node)
-    {
+    private static Content DeserializeContent(XmlNode node) {
         var content = new Content();
 
         // Get content value.
@@ -401,16 +360,17 @@ public static partial class Serializer
     /// If strict mode is disabled and the node is invalid,
     /// then <c>null</c> is returned.</returns>
     /// <exception cref="ConstraintException"></exception>
-    private static Person? DeserializePerson(XmlNode node, XmlNamespaceManager manager, bool strict, string parentNodeName)
-    {
+    private static Person? DeserializePerson(XmlNode node, XmlNamespaceManager manager, bool strict,
+        string parentNodeName) {
         // Get person name.
         var nameNode = node.SelectSingleNode(".//*[name()='name']", manager);
         if (nameNode == null)
-            return strict ? throw new ConstraintException($"AtomFeed: {parentNodeName} {node.Name} name is missing") : null;
+            return strict
+                ? throw new ConstraintException($"AtomFeed: {parentNodeName} {node.Name} name is missing")
+                : null;
         var name = nameNode.InnerText;
 
-        var person = new Person
-        {
+        var person = new Person {
             Name = name
         };
 
@@ -436,16 +396,16 @@ public static partial class Serializer
     /// <returns>Link object. If strict mode is disabled and the node is invalid,
     /// then <c>null</c> is returned.</returns>
     /// <exception cref="ConstraintException"></exception>
-    private static Link? DeserializeLink(XmlNode node, bool strict, string parentNodeName)
-    {
+    private static Link? DeserializeLink(XmlNode node, bool strict, string parentNodeName) {
         // Get link href.
         var hrefAttribute = node.Attributes?["href"];
         if (hrefAttribute == null)
-            return strict ? throw new ConstraintException($"AtomFeed: {parentNodeName} link href attribute is missing") : null;
+            return strict
+                ? throw new ConstraintException($"AtomFeed: {parentNodeName} link href attribute is missing")
+                : null;
         var href = hrefAttribute.Value;
 
-        var link = new Link
-        {
+        var link = new Link {
             Href = href
         };
 
@@ -486,16 +446,16 @@ public static partial class Serializer
     /// <returns>Category object. If strict mode is disabled and the node is invalid,
     /// then <c>null</c> is returned.</returns>
     /// <exception cref="ConstraintException"></exception>
-    private static Category? DeserializeCategory(XmlNode node, bool strict, string parentNodeName)
-    {
+    private static Category? DeserializeCategory(XmlNode node, bool strict, string parentNodeName) {
         // Get category term.
         var termAttribute = node.Attributes?["term"];
         if (termAttribute == null)
-            return strict ? throw new ConstraintException($"AtomFeed: {parentNodeName} category term attribute is missing") : null;
+            return strict
+                ? throw new ConstraintException($"AtomFeed: {parentNodeName} category term attribute is missing")
+                : null;
         var term = termAttribute.Value;
 
-        var category = new Category
-        {
+        var category = new Category {
             Term = term
         };
 
@@ -520,15 +480,13 @@ public static partial class Serializer
     /// <returns>Generator object. If strict mode is disabled and the node is invalid,
     /// then <c>null</c> is returned.</returns>
     /// <exception cref="ConstraintException"></exception>
-    private static Generator? DeserializeGenerator(XmlNode node, bool strict)
-    {
+    private static Generator? DeserializeGenerator(XmlNode node, bool strict) {
         // Get generator name.
         var name = node.InnerText;
         if (string.IsNullOrEmpty(name))
             return strict ? throw new ConstraintException("AtomFeed: generator name is missing") : null;
 
-        var generator = new Generator
-        {
+        var generator = new Generator {
             Value = name
         };
 
@@ -554,8 +512,7 @@ public static partial class Serializer
     /// <returns>Source object. If strict mode is disabled and the node is invalid,
     /// then <c>null</c> is returned.</returns>
     /// <exception cref="ConstraintException"></exception>
-    private static Source? DeserializeSource(XmlNode node, XmlNamespaceManager manager, bool strict)
-    {
+    private static Source? DeserializeSource(XmlNode node, XmlNamespaceManager manager, bool strict) {
         // Get source id.
         var idNode = node.SelectSingleNode(".//*[name()='id']", manager);
         if (idNode == null)
@@ -574,8 +531,7 @@ public static partial class Serializer
             return strict ? throw new ConstraintException("AtomFeed: entry source updated is missing") : null;
         DateTimeOffset.TryParse(updatedNode.InnerText, out var updated);
 
-        return new Source
-        {
+        return new Source {
             Id = id,
             Title = title,
             Updated = updated
